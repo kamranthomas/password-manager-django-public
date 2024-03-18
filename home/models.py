@@ -15,4 +15,22 @@ class UserPassword(models.Model):
     game_developer = models.CharField(max_length=30, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_last_updated = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.PROTECT, null=False, blank=False)
+    # user = models.ForeignKey(User, on_delete=models.PROTECT, null=False, blank=False)
+    user = models.ManyToManyField(User, related_name="passwords")
+    user_created = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="user_created",
+    )
+    user_last_updated = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="user_last_updated",
+    )
+
+    def __str__(self):
+        return self.website_name or self.application_name or self.game_name
